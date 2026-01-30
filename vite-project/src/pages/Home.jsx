@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Trophy, Users } from 'lucide-react'
-import teamsData from '../data/teams.json'
-import squidGuard from '../assets/sq1.png'
+import ConnectionTest from '../components/ConnectionTest'
+import { teamAPI } from '../api/apiClient'
 import './Home.css'
 
 const Home = () => {
@@ -14,27 +14,31 @@ const Home = () => {
   ]
 
   useEffect(() => {
-    const savedTeams = localStorage.getItem('hackathonTeams')
-    
-    if (savedTeams) {
-      setTeams(JSON.parse(savedTeams))
-    } else {
-      const initializedTeams = teamsData.map((team, index) => ({
-        id: index + 1,
-        name: team,
-        score: "",
-        color: colors[index % colors.length],
-        members: 5
-      }))
-      setTeams(initializedTeams)
-      localStorage.setItem('hackathonTeams', JSON.stringify(initializedTeams))
+    const fetchTeams = async () => {
+      try {
+        const response = await teamAPI.getAllTeams()
+        const teamsData = (response.data || []).map((team, index) => ({
+          id: team._id || index + 1,
+          name: team.teamName,
+          score: team.squidScore || 0,
+          color: colors[index % colors.length],
+          members: 5
+        }))
+        setTeams(teamsData)
+      } catch (error) {
+        console.log("Error fetching from backend, using local data:", error)
+        // Fallback to localStorage if backend fails
+        const savedTeams = localStorage.getItem('hackathonTeams')
+        if (savedTeams) {
+          setTeams(JSON.parse(savedTeams))
+        }
+      }
     }
 
+    fetchTeams()
+
     const handleStorageChange = () => {
-      const updatedTeams = localStorage.getItem('hackathonTeams')
-      if (updatedTeams) {
-        setTeams(JSON.parse(updatedTeams))
-      }
+      fetchTeams()
     }
     
     window.addEventListener('storage', handleStorageChange)
@@ -42,8 +46,8 @@ const Home = () => {
   }, [])
 
   const sortedTeams = [...teams].sort((a, b) => {
-    const scoreA = a.score === "" ? -1 : parseInt(a.score) || 0
-    const scoreB = b.score === "" ? -1 : parseInt(b.score) || 0
+    const scoreA = a.score || 0
+    const scoreB = b.score || 0
     return scoreB - scoreA
   })
 
@@ -55,24 +59,23 @@ const Home = () => {
   }
 
   const totalPoints = teams.reduce((sum, team) => {
-    const score = team.score === "" ? 0 : parseInt(team.score) || 0
+    const score = team.score || 0
     return sum + score
   }, 0)
   
   const maxScore = Math.max(...teams.map(team => {
-    const score = team.score === "" ? 0 : parseInt(team.score) || 0
+    const score = team.score || 0
     return score
-  }))
+  }), 0)
 
-  const teamsWithScores = teams.filter(team => team.score !== "").length
+  const teamsWithScores = teams.filter(team => team.score > 0).length
 
   // Get top 3 teams that actually have scores
-  const topTeams = sortedTeams.filter(team => team.score !== "").slice(0, 3)
+  const topTeams = sortedTeams.filter(team => team.score > 0).slice(0, 3)
 
   return (
     <div className="home-page">
-      <img src={squidGuard} alt="Squid Guard Left" className="corner-squid corner-left" />
-      <img src={squidGuard} alt="Squid Guard Right" className="corner-squid corner-right" />
+      <ConnectionTest />
       
       <div className="game-status">
         <div className="status-indicator"></div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Trophy, Users } from 'lucide-react'
 import teamsData from '../data/teams.json'
+import squidGuard from '../assets/sq1.png'
 import './Home.css'
 
 const Home = () => {
@@ -70,6 +71,9 @@ const Home = () => {
 
   return (
     <div className="home-page">
+      <img src={squidGuard} alt="Squid Guard Left" className="corner-squid corner-left" />
+      <img src={squidGuard} alt="Squid Guard Right" className="corner-squid corner-right" />
+      
       <div className="game-status">
         <div className="status-indicator"></div>
         <div className="status-content">

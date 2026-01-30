@@ -6,8 +6,8 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #0a0a14 0%, #1a1a2e 100%);
-  color: white;
+  background: white;
+  color: #333;
   min-height: 100vh;
 }
 
@@ -15,121 +15,121 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
 }
 
-.header {
-  background: rgba(26, 26, 46, 0.9);
-  border-radius: 15px;
-  padding: 15px 30px;
-  margin-bottom: 30px;
-  border: 2px solid #ff0000;
-  position: relative;
-  backdrop-filter: blur(10px);
-}
-
-.header::before {
-  content: '';
-  position: absolute;
+/* Navbar Styles */
+.navbar {
+  background: white;
+  padding: 15px 60px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, 
-    #ff0000 0%, 
-    #ff6b8b 25%, 
-    #00ff88 50%, 
-    #0066ff 75%, 
-    #9d00ff 100%);
+  z-index: 1000;
 }
 
-.header-container {
+.navbar-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.navbar-left {
+  display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.circle {
-  width: 50px;
-  height: 50px;
-  background: white;
+.navbar-logo {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
+  object-fit: cover;
+}
+
+.navbar-brand {
   display: flex;
   align-items: center;
-  justify-content: center;
-  animation: pulse 2s infinite;
+  gap: 5px;
+  font-size: 28px;
+  font-weight: 700;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+.brand-innovate {
+  color: #000;
+  letter-spacing: 2px;
 }
 
-.triangle {
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-bottom: 20px solid #ff0000;
-}
-
-.logo-text h1 {
-  font-size: 24px;
-  font-weight: 900;
-  background: linear-gradient(45deg, #ff0000, #ffd700);
+.brand-kare {
+  background: linear-gradient(90deg, #e91e63, #9c27b0);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
+  background-clip: text;
+  letter-spacing: 2px;
 }
 
-.subtitle {
-  font-size: 14px;
-  color: #00ff88;
-  font-weight: 600;
-}
-
-.nav {
-  display: flex;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 5px;
-  border-radius: 10px;
-}
-
-.nav-link {
+.navbar-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  gap: 40px;
+}
+
+.nav-item {
   text-decoration: none;
-  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 25px;
   transition: all 0.3s ease;
+  position: relative;
 }
 
-.nav-link:hover {
-  background: rgba(255, 0, 0, 0.1);
+.nav-item:hover {
+  color: #e91e63;
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, #e91e63, #f06292);
   color: white;
+  box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
 }
 
-.nav-link.active {
-  background: rgba(255, 0, 0, 0.2);
-  color: white;
-  border: 2px solid #ff0000;
-}
-
+/* Main content area */
 .main-content {
   flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+  }
+  
+  .navbar-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .navbar-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .nav-item {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+  
+  .navbar-brand {
+    font-size: 22px;
+  }
 }
 
 .footer {

@@ -28,12 +28,6 @@ function App() {
             >
               Leaderboard
             </Link>
-            <Link 
-              to="/admin" 
-              className={`nav-item ${location.pathname === '/admin' ? 'active' : ''}`}
-            >
-              Admin
-            </Link>
           </nav>
         </div>
       </header>
